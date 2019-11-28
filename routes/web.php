@@ -11,4 +11,8 @@
 |
 */
 
-Route::get('/', 'WelcomeController');
+Route::get('login', 'Auth\LoginController@showLoginForm')->middleware('guest')->name('login');
+Route::post('login', 'Auth\LoginController@login')->middleware('guest')->name('login');
+Route::post('logout', 'Auth\LoginController@logout')->middleware('auth')->name('logout');
+
+Route::get('/', 'WelcomeController')->middleware('auth')->name('index');
