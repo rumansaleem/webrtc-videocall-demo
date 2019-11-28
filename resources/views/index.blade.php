@@ -13,8 +13,8 @@
                 <div>
                     <h2 class="text-xl font-bold tracking-wide mb-2">{{ $user->name }}</h2>
                     <div class="flex leading-none -mx-2">
-                        <button class="mx-2 px-3 py-2 rounded bg-gray-100 border hover:bg-gray-200">Initiate Call</button>
-                        <button class="mx-2 px-3 py-2 rounded bg-gray-100 border hover:bg-gray-200">Join Call</button>
+                        <a href="{{ route('video_chats.initiate', $user) }}" class="mx-2 px-3 py-2 rounded bg-gray-100 border hover:bg-gray-200">Initiate Call</a>
+                        <a href="{{ route('video_chats.join', $user) }}" class="mx-2 px-3 py-2 rounded bg-gray-100 border hover:bg-gray-200">Join Call</a>
                     </div>
                 </div>
             </div>

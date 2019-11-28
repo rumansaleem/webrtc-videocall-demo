@@ -16,3 +16,5 @@ Route::post('login', 'Auth\LoginController@login')->middleware('guest')->name('l
 Route::post('logout', 'Auth\LoginController@logout')->middleware('auth')->name('logout');
 
 Route::get('/', 'WelcomeController')->middleware('auth')->name('index');
+Route::get('/video_chat/{user}/initiate', 'VideoChatController@show')->name('video_chats.initiate');
+Route::get('/video_chat/{user}/join', 'VideoChatController@show')->name('video_chats.join');
