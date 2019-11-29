@@ -18,9 +18,9 @@ Route::post('login', 'Auth\LoginController@login')->middleware('guest')->name('l
 Route::post('logout', 'Auth\LoginController@logout')->middleware('auth')->name('logout');
 
 Route::get('/', 'WelcomeController')->middleware('auth')->name('index');
-Route::get('/video_chat/{user}/initiate', 'VideoChatController@show')->middleware('auth')->name('video_chats.initiate');
-Route::get('/video_chat/{user}/join', 'VideoChatController@show')->middleware('auth')->name('video_chats.join');
 
-Route::get('/test', function() {
-    return view('test');
-})->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::post('/video_chats', 'VideoChatController@store')->name('video_chats.store');
+    Route::get('/video_chats/{video_chat}/initiate', 'VideoChatController@show')->name('video_chats.initiate');
+    Route::get('/video_chats/{video_chat}/join', 'VideoChatController@show')->name('video_chats.join');
+});

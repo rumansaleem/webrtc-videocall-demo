@@ -6,20 +6,18 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name') }}</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        @yield('head')
+        @stack('head')
     </head>
-    <body class="bg-gray-200 font-sans">
+    <body class="bg-gray-200 font-sans flex flex-col h-screen">
         @auth
-        <div class="fixed top-0 inset-x-0 flex items-center justify-end py-2 px-6 leading-none">
+        <div class="flex items-center py-1 px-2 leading-none">
             <img src="{{ Auth::user()->avatar(32) }}" alt="{{ $username = Auth::user()->name }}" class="w-8 h-8 rounded-full mr-2">
             <span class="mx-3">{{ $username }}</span>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="mx-2 px-3 py-2 rounded bg-white border hover:bg-gray-100">Logout</button>
+                <button type="submit" class="mx-2 px-2 py-1 rounded bg-white border hover:bg-gray-100">Logout</button>
             </form>
         </div>
         @endauth

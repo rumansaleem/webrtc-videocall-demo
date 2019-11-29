@@ -1,6 +1,15 @@
 let localVideoEl = document.getElementById("local-video");
 let remoteVideoEl = document.getElementById('remote-video');
+let signalingChannel = null;
 let localStream = null;
+let remoteStream = null;
+let peerConfig = {
+    iceServers: [
+        { urls: ["stun:stun.l.google.com:19302"] },
+    ]
+};
+
+let peer = new RTCPeerConnection(peerConfig);
 
 let logArea = document.getElementById("log-area");
 
@@ -20,9 +29,46 @@ function logSuccess(message) {
     messageEl.classList.add("text-green-700");
 }
 
+
+async function createAndSendOffer() {
+    log('negotiation needed: sending offer...');
+    const sdp = await peer.createOffer();
+    await peer.setLocalDescription(sdp);
+    sendSignal('offer', sdp);
+    logSuccess('offer signal sent...');
+}
+async function onAnswerReceived({answer}) {
+    log('answer received...')
+    await peer.setRemoteDescription(answer);
+}
+
+async function onOfferReceived({offer}) {
+    log('offer received...');
+    await peer.setRemoteDescription(offer);
+    createAndSendAnswer();
+}
+async function createAndSendAnswer() {
+    log('offer received: sending answer...');
+    const sdp = await peer.createAnswer();
+    await peer.setLocalDescription(sdp);
+    sendSignal('answer', sdp);
+    logSuccess('answer signal sent..')
+}
+
+async function onIceCandidateFound(e) {
+    if (e.candidate) {
+        sendSignal('candidate', e.candidate);
+    }
+}
+function onIceCandidateReceived({candidate}) {
+    log('candidate candidate received...');
+    peer.addIceCandidate(candidate);
+}
+
 function onLocalStreamReceived(stream) {
     logSuccess('local stream received...');
     localStream = stream;
+    stream.getTracks().forEach(track => peer.addTrack(track, stream));
     localVideoEl.srcObject = stream;
     localVideoEl.play();
 }
@@ -30,24 +76,46 @@ function handleLocalStreamError(error) {
     logError(error);
 }
 
+function onRemoteStreamReceived(stream) {
+    logSuccess('remote stream received...');
+    remoteStream = stream;
+    if(! remoteVideoEl.srcObject && stream) {
+        remoteVideoEl.srcObject = stream;
+        remoteVideoEl.play();
+    }
+}
+
 function getUserMedia(constraints) {
-    log('retriveing local stream...')
+    log('retrieving local stream...');
     return window.navigator.mediaDevices
         .getUserMedia(constraints);
 }
 
-// getUserMedia({ audio: true, video: true })
-//     .then(onLocalStreamReceived)
-//     .catch(handleLocalStreamError);
+function sendSignal(type, message) {
+    signalingChannel.whisper(type, {[type]: message})
+}
 
-let channel = window.Echo.private('test')
-    .listenForWhisper('ping', e => {
-        log('Someone: ' + e.message);
-        log('sending PONG...!');
-        channel.whisper('pong', {message: 'PONG'});
-    }).listenForWhisper('pong', e => {
-        log('Someone: ' + e.message);
-    });
+function onSignal(type, callback) {
+    signalingChannel.listenForWhisper(type, callback);
+}
 
-let pingbtn = document.getElementById('ping-btn');
-pingbtn.addEventListener('click', () => log('sending PING..!') && channel.whisper('ping', {message: 'PING'}));
+function startCall(isInitiator) {
+    peer.ontrack = e => {
+        onRemoteStreamReceived(e.streams[0]);
+    }
+    peer.onicecandidate = onIceCandidateFound;
+    signalingChannel = window.Echo.private(window.Laravel.channelName)
+    onSignal('candidate', onIceCandidateReceived)
+
+    if(isInitiator) {
+        peer.onnegotiationneeded = createAndSendOffer;
+        onSignal('answer', onAnswerReceived);
+    } else {
+        onSignal('offer', onOfferReceived);
+    }
+
+    getUserMedia({audio: true, video: true}).then(onLocalStreamReceived);
+
+}
+
+startCall(window.Laravel.isInitiator);

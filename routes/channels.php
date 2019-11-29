@@ -11,6 +11,8 @@
 |
 */
 
-Broadcast::channel('test', function () {
-    return true;
+use App\VideoChat;
+
+Broadcast::channel('VideoChats.{video_chat}', function ($user, VideoChat $video_chat) {
+    return $video_chat->users->pluck('id')->contains($user->id);
 });

@@ -37,6 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function video_chats()
+    {
+        return $this->belongsToMany(VideoChat::class);
+    }
+
     public function avatar($size = 48)
     {
         return "https://gravatar.com/avatar/"

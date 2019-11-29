@@ -11948,6 +11948,8 @@ module.exports = g;
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.Laravel = {};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -11979,8 +11981,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: "pusher",
   key: "my-pusher-app-unique-key",
   wsHost: window.location.hostname,
-  wsPort: 6001,
-  wssPort: 6001,
+  wsPort: 6002,
+  wssPort: 6002,
   disableStats: true,
   encrypted: true
 });
