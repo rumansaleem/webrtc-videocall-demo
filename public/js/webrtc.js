@@ -36,7 +36,18 @@ function getUserMedia(constraints) {
         .getUserMedia(constraints);
 }
 
-getUserMedia({ audio: true, video: true })
-    .then(onLocalStreamReceived)
-    .catch(handleLocalStreamError);
+// getUserMedia({ audio: true, video: true })
+//     .then(onLocalStreamReceived)
+//     .catch(handleLocalStreamError);
 
+let channel = window.Echo.private('test')
+    .listenForWhisper('ping', e => {
+        log('Someone: ' + e.message);
+        log('sending PONG...!');
+        channel.whisper('pong', {message: 'PONG'});
+    }).listenForWhisper('pong', e => {
+        log('Someone: ' + e.message);
+    });
+
+let pingbtn = document.getElementById('ping-btn');
+pingbtn.addEventListener('click', () => log('sending PING..!') && channel.whisper('ping', {message: 'PING'}));

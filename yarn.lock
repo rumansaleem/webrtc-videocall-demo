@@ -3817,6 +3817,11 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
+laravel-echo@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.6.1.tgz#7360a48782f606acd0e6cf6fd429905b59606ae6"
+  integrity sha512-Nj+vg6IwnXh65Oe+HrIrjOFX5xwR1ln9YgdxPWzuYNOuvT4ZimhkmIe5jb7D3muBPVRUoOY9W4c6YgJ4L0L6+Q==
+
 laravel-mix-purgecss@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/laravel-mix-purgecss/-/laravel-mix-purgecss-4.2.0.tgz#688f3d0bbc1e676d308df666f5364e086cec2c42"
@@ -5421,6 +5426,11 @@ purgecss@^1.4.0:
     postcss "^7.0.14"
     postcss-selector-parser "^6.0.0"
     yargs "^14.0.0"
+
+pusher-js@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/pusher-js/-/pusher-js-5.0.3.tgz#22c62d0a094ed23f356d3a18aef360a5aacb1bd6"
+  integrity sha512-vbaflcd8LYaErJ0LrXZyLQ+meMuD3N2kl9hXUrj22VZLsKyfRFbXS3eCb6/2erQLFeHcnbkWPyBvxya+706+zw==
 
 q@^1.1.2:
   version "1.5.1"
