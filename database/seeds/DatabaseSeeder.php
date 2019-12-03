@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\User')->create(['name' => 'Ruman Saleem', 'email' => 'ruman63@example.com']);
         factory('App\User')->create(['name' => 'John Doe', 'email' => 'john@example.com']);
+        factory('App\User')->create(['name' => 'Jane Doe', 'email' => 'jane@example.com']);
+        factory('App\User')->create(['name' => 'Mary Jane', 'email' => 'mary@example.com']);
+        factory('App\User')->create(['name' => 'Harry', 'email' => 'harry@example.com']);
+        factory('App\User')->create(['name' => 'Tom', 'email' => 'tom@example.com']);
     }
 }

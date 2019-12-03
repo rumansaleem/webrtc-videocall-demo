@@ -1,78 +1,106 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Peer to Peer Video Calling
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This is a Laravel application demonstrating peer to peer video calling using WebRTC APIs and Laravel WEbsockets used for singaling.
 
-## About Laravel
+## Local Development
+This is project is built with Laravel & Vue.js. The Laravel framework has a few system requirements. All of these requirements are satisfied by the [Laravel Homestead](https://laravel.com/docs/6.x/homestead) virtual machine.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+However, if you are not using Homestead, you will need to make sure your local development server meets the following requirements:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Installing Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+You can find the server prequisites listed in [laravel docs](https://laravel.com/docs/6.x#server-requirements), Additionally, you would require to install [composer](https://getcomposer.org/) & [nodejs](https://nodejs.org/en/) to pull in all the project dependencies.
 
-## Learning Laravel
+### Clone Project
+You can simply clone the project using `git` as:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+git clone https://github.com/gautamswati/ducs-office-automation
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Install project dependencies
 
-## Laravel Sponsors
+Go to the project directory and install php dependencies using `composer`:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+`npm` to install all the required JavaScript dependencies.
 
-## Contributing
+```bash
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+To compile down the frontend assets like stylesheets (CSS) & javascript files using,
 
-## Code of Conduct
+```
+npm run dev
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Or you can also run a watcher to automatically compile the assets, whenever the files are changed.
 
-## Security Vulnerabilities
+```
+npm run watch
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Application Configuration
 
-## License
+Create a duplicate file of `.env.example` as `.env`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cp .env.example .env
+```
+
+To generate an application key use: 
+`php artisan key:generate` this will add an application to your `.env` file. 
+
+Setup Database connection in `.env` file:
+
+```env
+...
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+...
+```
+Make sure you change database configuration according to your credentials. Mostly, you'd need to change values for these variables:
+
+- `DB_DATABASE` - This is the name of database, you must change this and make sure the database name you provide exists, or would get an error.
+- `DB_USERNAME` - This is your mysql user.
+- `DB_PASSWORD` - This is your mysql password for that user.
+
+That's pretty much it. You're done with the configuration.
+
+### Add some default data for testing the app
+To create all the tables & seed your database with dummy users, run:
+
+```bash
+php artisan migrate --seed
+```
+
+This will create 5 Users with following email:
+- John Doe (john@example.com)
+- Jane Doe (jane@example.com)
+- Mary Jane (mary@example.com)
+- Tom (tom@example.com)
+- Harry (harry@example.com)
+
+You can login as any one of them, password for every user is `password`.
+
+### Start Local Development Server
+
+You'd need to start a local development server to see demo in action.
+
+```bash
+# start websockets server
+php artisan websockets:serve
+
+# start local php server
+php artisan serve
+```
+
+You can now open `localhost:8000` in your browser, Create a Video Chat with another user and start trying out the demo.
